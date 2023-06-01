@@ -6,6 +6,7 @@ function App() {
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [modifiedData, setModifiedData] = useState('');
   const [showDownloadButton, setShowDownloadButton] = useState(false);
+  const [nomeArquivo, setNomeArquivo] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -42,7 +43,7 @@ function App() {
 
   const handleDownloadFile = () => {
     const modifiedBlob = new Blob([modifiedData], { type: 'text/plain;charset=utf-8' });
-    saveAs(modifiedBlob, 'modified.txt');
+    saveAs(modifiedBlob, nomeArquivo.length > 0 ?  `${nomeArquivo}.txt` : 'arquivo.txt');
   };
 
   return (
@@ -89,7 +90,11 @@ function App() {
           <h2>Arquivo Modificado:</h2>
           <pre>{modifiedData}</pre>
           {showDownloadButton && (
+            <>
+            digite o nome do arquivo
+            <input onChange={(e) => setNomeArquivo(e.target.value) } value={nomeArquivo} label="Digite o nome"/>
             <button onClick={handleDownloadFile}>Baixar Arquivo Modificado</button>
+            </>
           )}
         </div>
       )}
